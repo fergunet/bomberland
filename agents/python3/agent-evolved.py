@@ -10,10 +10,14 @@ uri = os.environ.get(
 
 actions = ["up", "down", "left", "right", "bomb", "detonate"]
 
+W1 = 0
+W2 = 0
+W3 = 0
 
 class Agent():
     def __init__(self):
         self._client = GameState(uri)
+        print("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
 
         # any initialization code can go here
         self._client.set_game_tick_callback(self._on_game_tick)
@@ -24,6 +28,11 @@ class Agent():
             asyncio.ensure_future(self._client._handle_messages(connection)),
         ]
         loop.run_until_complete(asyncio.wait(tasks))
+
+        #OPEN INDIVUAL FILE
+        W1 = 0.3
+        W2 = 0.4
+        W3 = 0.1
 
     # returns coordinates of the first bomb placed by a unit
     def _get_bomb_to_detonate(self, unit) -> Union[int, int] or None:
@@ -49,7 +58,7 @@ class Agent():
 
             if action in ["up", "left", "right", "down"]:
                 await self._client.send_move(action, unit_id)
-                print("I am NORMALLLYYYYY agent moving")
+                print("I am EVOLVED agent moving")
             elif action == "bomb":
                 await self._client.send_bomb(unit_id)
             elif action == "detonate":
